@@ -1,0 +1,71 @@
+{# <div>
+  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
+    <table class="form">
+    <tr>
+      <td>
+        <span class="btn btn-default btn-file btn-primary"><i class="fa fa-upload"></i>
+            Select (.csv) File <input type="file">
+        </span>
+      </td>
+      {# <td><input type="file" name="csv" value=""  class="btn btn-primary"</input>
+        <?php if ($error_csv) { ?>
+          <span class="error"><?php echo $error_csv; ?></span>
+        <?php } ?>
+      </td> 
+    </tr>
+    </table>
+  </form>
+</div> #}
+<div>
+  <br/>
+  {% if date_added %}
+  <p>Latest import: {{date_added}} by <b>{{username}}</b></p>
+  {% endif %}
+</div>
+<div class="table-responsive">
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <td class="text-right">Porduct Name</td>
+        <td class="text-right">Product EAN Code</td>
+        <td class="text-right">Special Price (EUR)</td>
+        <td class="text-right">Date Added</td>
+        <td class="text-right">Action</td>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% if imports %}
+      {% for importdata in imports %}
+      <tr>
+        {% if importdata.product_name %}
+        <td class="text-right"><a href={{importdata.product}}>{{importdata.product_name}}</a></td>
+        {% else %}
+        <td class="text-right">No product with this EAN</td>
+        {% endif %}
+        <td class="text-right">{{importdata.ean}} </td>
+        <td class="text-right">{{importdata.price}} </td>
+        <td class="text-right">{{importdata.date_added}} </td>
+        <td class="text-right">
+        <a href={{importdata.edit}} 
+        data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Edit"><i class="fa fa-pencil"></i></a>
+
+        <a href={{ importdata.delete }} data-toggle="tooltip"
+        title="" class="btn btn-danger" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>         
+   
+      </tr>
+      {% endfor %}
+      {% else %}
+      <tr>
+        <td class="text-center" colspan="5">{{ text_no_results }}</td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+<div class="row">
+  <div class="col-sm-6 text-left">{{ pagination }}</div>
+  <div class="col-sm-6 text-right">{{ results }}</div>
+</div>
+  
+  
